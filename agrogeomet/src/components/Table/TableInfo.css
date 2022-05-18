@@ -1,0 +1,84 @@
+/* ********** Carousel ********** */
+
+@keyframes carousel-slide {
+	0% {
+		transform: translateX(0%);
+	}
+
+	25% {
+		transform: translateX(-25%);
+	}
+
+	50% {
+		transform: translateX(-50%);
+	}
+
+	75% {
+		transform: translateX(-75%);
+	}
+}
+
+.carousel {
+	/* margin: 2rem auto;
+	padding: 2rem 0; */
+	/* max-width: 800px; */
+	text-align: center;
+	background-color: var(--carousel-bg-color);
+	overflow-x: hidden;
+	width: 100%;
+}
+
+.carousel input {
+	display: none;
+}
+
+.carousel label {
+	/* 	display: inline-block;
+	border: medium solid var(--gray-dark-color);
+	border-radius: 50%;
+	margin: 0 0.25rem;
+	cursor: pointer;
+	width: 0.75rem;
+	height: 0.75rem; */
+}
+
+.slides {
+	/* width: 400%; */ /* 100% por cada slide */
+	display: flex;
+	list-style: none;
+	margin-top: 5px;
+	padding-top: 3px;
+	padding-left: 0;
+	transition: transform 0.5s ease-in-out;
+	animation: carousel-slide 12s ease-in-out;
+}
+
+.slides .slide {
+	overflow-x: auto;
+	width: 100%;
+}
+
+/* Como tengo 4 slides se divide (100% / 4) que da 25% */
+
+/* #slide-1:checked ~ .slides {
+	transform: translateX(0%);
+}
+
+#slide-2:checked ~ .slides {
+	transform: translateX(-50%);
+}
+
+#slide-3:checked ~ .slides {
+	transform: translateX(-50%);
+}
+
+#slide-4:checked ~ .slides {
+	transform: translateX(-75%);
+} */
+
+/* #slide-1:checked ~ .slides-nav label#dot-1,
+#slide-2:checked ~ .slides-nav label#dot-2,
+#slide-3:checked ~ .slides-nav label#dot-3,
+#slide-4:checked ~ .slides-nav label#dot-4 {
+	background-color: var(--gray-dark-color);
+} */
