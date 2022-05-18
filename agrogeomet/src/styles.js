@@ -9,10 +9,10 @@ export default makeStyles(() => ({
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	container: {
+	/* 	container: {
 		display: "flex",
 		flexDirection: "column !important",
 		justifyContent: "center",
 		alignItems: "center",
-	},
+	}, */
 }));

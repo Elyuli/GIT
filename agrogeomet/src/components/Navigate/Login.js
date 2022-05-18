@@ -1,6 +1,7 @@
 import { LoginOutlined } from "@mui/icons-material";
 import React, { useContext } from "react";
 import ApiContext from "../../context/ApiContext";
+import { Navigate } from "react-router-dom";
 
 const Login = () => {
 	const { isActiveLogin, setIsActiveLogin } = useContext(ApiContext);
@@ -15,8 +16,9 @@ const Login = () => {
 			onClick={() => setIsActiveLogin(!isActiveLogin)}
 		>
 			{/* <LoginOutlined /> */}
+			{isActiveLogin && <Navigate to="/login" replace={true} />}
 			<div className="toolbar-menu hidden"></div>
-			<span className="tooltip bottom ">Información de las capas</span>
+			<span className="tooltip bottom ">Ir a Login</span>
 		</div>
 	);
 };

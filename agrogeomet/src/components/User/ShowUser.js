@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import { IconButton } from "@mui/material";
 import { Delete, Update } from "@mui/icons-material";
+import EditIcon from "@mui/icons-material/Edit";
 import ApiContext from "../../context/ApiContext";
 
 const useStyles = makeStyles({
@@ -56,7 +57,7 @@ const ShowUser = ({ usersList, deleteData, setIsStart, setDataToEdit }) => {
 										<TableCell align="center">{email}</TableCell>
 										<TableCell align="center">{role}</TableCell>
 										<TableCell align="center" overflow="auto">
-											{password}
+											*****
 										</TableCell>
 										<TableCell align="center">
 											<IconButton
@@ -71,10 +72,10 @@ const ShowUser = ({ usersList, deleteData, setIsStart, setDataToEdit }) => {
 												className={classes.margin}
 												onClick={() => {
 													setDataToEdit(usuario);
-													setIsStart(true);
+													//	setIsStart(true);
 												}}
 											>
-												<Update fontSize="small" />
+												<EditIcon fontSize="small" />
 											</IconButton>
 										</TableCell>
 									</TableRow>

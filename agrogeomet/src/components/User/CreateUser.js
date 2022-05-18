@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { makeStyles, TextField, Button } from "@material-ui/core";
 //import {  } from "@mui/material";
 import axios from "axios";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -79,7 +80,8 @@ const CreateUser = ({
 	return (
 		<>
 			{/* <h3>{dataToEdit ? "Editar" : "Agregar"}</h3> */}
-			{isStart && (
+			{
+				//isStart &&
 				<form
 					className={classes.root}
 					noValidate
@@ -87,24 +89,50 @@ const CreateUser = ({
 					onSubmit={handlSubmit}
 				>
 					<TextField
-						id="outlined-basic"
-						label="Email"
-						type="email"
+						margin="normal"
+						required
+						fullWidth
+						id="email"
+						label="Email Address"
+						name="email"
+						autoComplete="email"
+						autoFocus
 						variant="outlined"
 						value={usuario.email}
 						onChange={(e) => handlChangeEmail(e)}
 					/>
-					<TextField
+					{/* <TextField
 						id="outlined-basic"
 						label="Rol"
 						variant="outlined"
 						value={usuario.role}
 						onChange={(e) => handlChangeRole(e)}
-					/>
+					/> */}
+					<FormControl variant="outlined" sx={{ m: 1, minWidth: 120 }}>
+						<InputLabel id="demo-simple-select-label">Rol</InputLabel>
+						<Select
+							id="outlined-basic"
+							label="Rol"
+							margin="normal"
+							required
+							//variant="outlined"
+							value={usuario.role}
+							onChange={(e) => handlChangeRole(e)}
+						>
+							<MenuItem value="admin">Admin</MenuItem>
+							<MenuItem value="user">User</MenuItem>
+							<MenuItem value="disabled">Disabled</MenuItem>
+						</Select>
+					</FormControl>
 					<TextField
-						id="outlined-basic"
-						label="Contraseña"
+						margin="normal"
+						required
+						fullWidth
+						name="password"
+						label="Password"
 						type="password"
+						id="password"
+						autoComplete="current-password"
 						variant="outlined"
 						value={usuario.password}
 						onChange={(e) => handlChangePassword(e)}
@@ -131,7 +159,7 @@ const CreateUser = ({
 						Limpiar
 					</Button>
 				</form>
-			)}
+			}
 		</>
 	);
 };

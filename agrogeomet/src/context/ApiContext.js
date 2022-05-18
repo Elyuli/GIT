@@ -40,6 +40,7 @@ const ApiProvider = ({
 	const [isActiveInfo, setIsActiveInfo] = useState(false);
 	const [isActiveHelp, setIsActiveHelp] = useState(false);
 	const [isActiveCrud, setIsActiveCrud] = useState(false);
+	const [isActiveLogin, setIsActiveLogin] = useState(false);
 
 	useEffect(() => {
 		setLoading(true);
@@ -146,6 +147,8 @@ const ApiProvider = ({
 		handlOnClickIHelpBtn,
 		isActiveCrud,
 		setIsActiveCrud,
+		isActiveLogin,
+		setIsActiveLogin,
 	};
 
 	return <ApiContext.Provider value={data}>{children}</ApiContext.Provider>;

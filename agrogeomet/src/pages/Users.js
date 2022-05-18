@@ -71,6 +71,9 @@ const Usuarios = () => {
 			.put(`http://localhost:5000/updateUser/${id}`, data)
 			.then(() => {
 				window.location.reload(false);
+				/* let newArray = [...usersList];
+				newArray[id] = data;
+				setUsersList(newArray); */
 				setError(null);
 				setOpen(false);
 			})
@@ -118,31 +121,18 @@ const Usuarios = () => {
 				)}
 				<Grow in>
 					<Container>
-						<Grid className={classes.container} container>
-							<Grid item xs={12} sm={4} position="absolute" left={32} top={88}>
+						<Grid
+							/* className={classes.container}  */ container
+							justifyContent="space-between"
+							alignItems="stretch"
+						>
+							{/* <Grid item xs={12} sm={4} position="absolute" left={32} top={88}>
 								{isStart === false && (
 									<AddUserButton isStart={isStart} setIsStart={setIsStart} />
 								)}
-							</Grid>
-							<Grid item xs={12} sm={4}>
-								<AppBar
-									className={classes.appBar}
-									position="static"
-									color="inherit"
-								>
-									{isStart && (
-										<CreateUser
-											isStart={isStart}
-											setIsStart={setIsStart}
-											createData={createData}
-											updateData={updateData}
-											dataToEdit={dataToEdit}
-											setDataToEdit={setDataToEdit}
-										/>
-									)}
-								</AppBar>
-							</Grid>
-							<Grid item xs={12}>
+							</Grid> */}
+
+							<Grid item xs={12} sm={7}>
 								<AppBar
 									className={classes.appBar}
 									position="static"
@@ -154,6 +144,25 @@ const Usuarios = () => {
 										setIsStart={setIsStart}
 										setDataToEdit={setDataToEdit}
 									/>
+								</AppBar>
+							</Grid>
+							<Grid item xs={12} sm={4}>
+								<AppBar
+									className={classes.appBar}
+									position="static"
+									color="inherit"
+								>
+									{
+										//isStart &&
+										<CreateUser
+											isStart={isStart}
+											setIsStart={setIsStart}
+											createData={createData}
+											updateData={updateData}
+											dataToEdit={dataToEdit}
+											setDataToEdit={setDataToEdit}
+										/>
+									}
 								</AppBar>
 							</Grid>
 						</Grid>
