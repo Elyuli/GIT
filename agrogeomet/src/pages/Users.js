@@ -1,5 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Container, AppBar, Typography, Grow, Grid } from "@mui/material";
+import {
+	Container,
+	AppBar,
+	Typography,
+	Grow,
+	Grid,
+	Button,
+} from "@mui/material";
 import ShowUser from "../components/User/ShowUser";
 import CreateUser from "../components/User/CreateUser";
 import useStyles from "../styles";
@@ -9,6 +16,8 @@ import AddUserButton from "../components/User/AddUserButton";
 import Loader from "../components/Loader/Loader";
 import { Message } from "@mui/icons-material";
 import Fallback from "../components/Fallback";
+import GlobalContext from "../context/GlobalContext";
+import { Navigate } from "react-router-dom";
 //import { makeStyles } from "@mui/material";
 
 const initialUser = {
@@ -27,6 +36,7 @@ const Usuarios = () => {
 	const [usersList, setUsersList] = useState([]);
 	const [dataToEdit, setDataToEdit] = useState(null);
 	const [open, setOpen] = useState(false);
+	const { isActiveCrud, setIsActiveCrud, logueado } = useContext(GlobalContext);
 
 	useEffect(() => {
 		setLoading(true);
@@ -39,50 +49,73 @@ const Usuarios = () => {
 				setOpen(false);
 			})
 			.catch((err) => {
-				console.log("error>>>", err.response);
+				//console.log("err.message", err.message);
+				//console.log("error", err.response.data.data.error);
+				if (err.response.data.data.error.length > 0) {
+					//console.log("CARAJO");
+					let error = err.response.data.data.error;
+					setError(error);
+				} else {
+					let error = err.message;
+					setError(error);
+				}
 				setUsersList(initialUser);
 				setOpen(true);
-				setError(err.response.data.error);
 			});
 		setLoading(false);
 	}, [url]);
-
-	/* 	useEffect(() => {
-		setOpen(error);
-	}, [error]); */
 
 	const createData = (data) => {
 		axios
 			.post(`http://localhost:5000/createUser`, data)
 			.then(() => {
-				window.location.reload(false);
+				//window.location.reload(false);
+				setUsersList([...usersList, data]);
 				setOpen(false);
+				console.log("HERE>>>");
 				setError(null);
 			})
 			.catch((err) => {
-				console.log("error", err);
-				setError(err.response.data.error);
+				console.log("err.message", err.message);
+				console.log("error", err.response.data.data.error);
+				if (err.response.data.data.error.length > 0) {
+					//console.log("CARAJO");
+					let error = err.response.data.data.error;
+					setError(error);
+				} else {
+					let error = err.message;
+					setError(error);
+				}
 				setOpen(true);
 			});
 	};
 
 	const updateData = (id, data) => {
+		const promises = [];
+
 		axios
 			.put(`http://localhost:5000/updateUser/${id}`, data)
 			.then(() => {
-				window.location.reload(false);
-				/* let newArray = [...usersList];
-				newArray[id] = data;
-				setUsersList(newArray); */
+				//window.location.reload(false);
+				let newArray = [...usersList, data];
+				//newArray[id] = data;
+				setUsersList(newArray);
 				setError(null);
 				setOpen(false);
 			})
 			.catch((err) => {
-				console.log("error", err.message);
-				setError(err.response.data.error);
+				console.log("err.message", err.message);
+				//console.log("error", err.response.data.data.error);
+				if (err.response.data.data.error.length > 0) {
+					//console.log("CARAJO");
+					let error = err.response.data.data.error;
+					setError(error);
+				} else {
+					let error = err.message;
+					setError(error);
+				}
 				setOpen(true);
 			});
-		//setIsStart(false);
 	};
 
 	const deleteData = (id) => {
@@ -94,15 +127,24 @@ const Usuarios = () => {
 				setOpen(false);
 			})
 			.catch((err) => {
-				console.log("error", err.message);
-				setError(err.response.data.error);
+				console.log("err.message", err.message);
+				//console.log("error", err.response.data.data.error);
+				if (err.response.data.data.error.length > 0) {
+					//console.log("CARAJO");
+					let error = err.response.data.data.error;
+					setError(error);
+				} else {
+					let error = err.message;
+					setError(error);
+				}
 				setOpen(true);
 			});
 	};
 
 	return (
 		<>
-			{/* <ApiProvider> */}
+			{!logueado && <Navigate to="/" replace={true} />}
+			{!isActiveCrud && <Navigate to="/agrogeomet" replace={true} />}
 
 			<Container maxWidth="lg">
 				<AppBar className={classes.appBar} position="static" color="inherit">
@@ -111,14 +153,21 @@ const Usuarios = () => {
 					</Typography>
 				</AppBar>
 				{loading && <Loader />}
-				{open && (
-					<Fallback
-						error={error}
-						open={open}
-						setOpen={setOpen}
-						setIsStart={setIsStart}
-					/>
-				)}
+
+				{open && <Fallback open={open} setOpen={setOpen} error={error} />}
+				<Container>
+					<Button
+						//fullWidth
+						variant="contained"
+						sx={{ width: 100 }}
+						label="Volver"
+						onClick={() => {
+							setIsActiveCrud(false);
+						}}
+					>
+						Volver
+					</Button>
+				</Container>
 				<Grow in>
 					<Container>
 						<Grid
@@ -155,12 +204,12 @@ const Usuarios = () => {
 									{
 										//isStart &&
 										<CreateUser
-											isStart={isStart}
-											setIsStart={setIsStart}
 											createData={createData}
 											updateData={updateData}
 											dataToEdit={dataToEdit}
 											setDataToEdit={setDataToEdit}
+											setOpen={setOpen}
+											setError={setError}
 										/>
 									}
 								</AppBar>

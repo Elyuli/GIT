@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useContext, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,6 +12,15 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Fallback from "../components/Fallback";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
+import GlobalContext from "../context/GlobalContext";
+
+const initialUser = {
+	username: "",
+	password: "",
+};
 
 function Copyright(props) {
 	return (
@@ -34,17 +43,64 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
-	const handleSubmit = (event) => {
-		event.preventDefault();
-		const data = new FormData(event.currentTarget);
-		console.log({
-			email: data.get("email"),
-			password: data.get("password"),
-		});
+	const { logueado, setLogueado } = useContext(GlobalContext);
+	const [open, setOpen] = useState(false);
+	const [error, setError] = useState(null);
+	const [usuario, setUsuario] = useState(initialUser);
+	//const [logged, setLogged] = useState(false);
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const data = {
+			username: usuario.username,
+			password: usuario.password,
+		};
+
+		if (!data.username || !data.password) {
+			setError("Datos incompletos");
+			setOpen(true);
+			return;
+		}
+
+		axios
+			.post("http://localhost:5000/login", data)
+			.then(() => {
+				setOpen(false);
+				setError(null);
+				setLogueado(true);
+			})
+			.catch((err) => {
+				console.log("err.message", err.message);
+				console.log("error", err.response.data.data.error);
+				if (err.response.data.data.error.length > 0) {
+					console.log("CARAJO");
+					let error = err.response.data.data.error;
+					setError(error);
+				} else {
+					let error = err.message;
+					setError(error);
+				}
+				setOpen(true);
+				setLogueado(false);
+			});
+		handlClickReset();
+	};
+
+	const handlClickReset = () => {
+		setUsuario(initialUser);
+	};
+
+	const handlChangePassword = (e) => {
+		setUsuario({ ...usuario, password: e.target.value });
+	};
+
+	const handlChangeUsername = (e) => {
+		setUsuario({ ...usuario, username: e.target.value });
 	};
 
 	return (
 		<ThemeProvider theme={theme}>
+			{logueado && <Navigate to="/agrogeomet" replace={true} />}
 			<Container component="main" maxWidth="xs">
 				<CssBaseline />
 				<Box
@@ -55,12 +111,13 @@ export default function SignIn() {
 						alignItems: "center",
 					}}
 				>
-					<Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+					<Avatar sx={{ m: 1, bgcolor: "#333" }}>
 						<LockOutlinedIcon />
 					</Avatar>
 					<Typography component="h1" variant="h5">
-						Registrarse
+						Iniciar Sesión
 					</Typography>
+					{open && <Fallback open={open} setOpen={setOpen} error={error} />}
 					<Box
 						component="form"
 						onSubmit={handleSubmit}
@@ -71,10 +128,17 @@ export default function SignIn() {
 							margin="normal"
 							required
 							fullWidth
-							id="email"
-							label="Email Address"
-							name="email"
-							autoComplete="email"
+							id="username"
+							label="Username"
+							name="username"
+							autoComplete="username"
+							InputLabelProps={{ shrink: true }}
+							/* inputProps={{
+								pattern:
+									"^[a-z0-9]+(.[_a-z0-9]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,15})$",
+							}} */
+							value={usuario.username}
+							onChange={(e) => handlChangeUsername(e)}
 							autoFocus
 						/>
 						<TextField
@@ -86,6 +150,8 @@ export default function SignIn() {
 							type="password"
 							id="password"
 							autoComplete="current-password"
+							value={usuario.password}
+							onChange={(e) => handlChangePassword(e)}
 						/>
 						{/* <FormControlLabel
 							control={<Checkbox value="remember" color="primary" />}
@@ -97,7 +163,7 @@ export default function SignIn() {
 							variant="contained"
 							sx={{ mt: 3, mb: 2 }}
 						>
-							Sign In
+							Entrar
 						</Button>
 						{/* <Grid container>
 							<Grid item xs>

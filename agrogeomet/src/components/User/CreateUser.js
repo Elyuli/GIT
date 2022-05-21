@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles, TextField, Button } from "@material-ui/core";
+import { makeStyles, Button } from "@material-ui/core";
 //import {  } from "@mui/material";
 import axios from "axios";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Select,
+	TextField,
+} from "@mui/material";
+import "./User.css";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -24,8 +31,8 @@ const initialUser = {
 const url = `http://localhost:5000/getAllUsers`;
 
 const CreateUser = ({
-	isStart,
-	setIsStart,
+	setOpen,
+	setError,
 	createData,
 	updateData,
 	dataToEdit,
@@ -43,12 +50,14 @@ const CreateUser = ({
 		}
 	}, [dataToEdit]);
 
-	const handlChangeEmail = (e) => {
-		setUsuario({ ...usuario, email: e.target.value });
+	const handlChangeUsername = (e) => {
+		setUsuario({ ...usuario, username: e.target.value });
 	};
+
 	const handlChangeRole = (e) => {
 		setUsuario({ ...usuario, role: e.target.value });
 	};
+
 	const handlChangePassword = (e) => {
 		setUsuario({ ...usuario, password: e.target.value });
 	};
@@ -58,8 +67,9 @@ const CreateUser = ({
 
 		console.log("usuario>>>", usuario.id);
 
-		if (!usuario.email || !usuario.role || !usuario.password) {
-			alert("Datos incompletos");
+		if (!usuario.username || !usuario.role || !usuario.password) {
+			setError("Datos incompletos");
+			setOpen(true);
 			return;
 		}
 
@@ -79,41 +89,46 @@ const CreateUser = ({
 
 	return (
 		<>
-			{/* <h3>{dataToEdit ? "Editar" : "Agregar"}</h3> */}
-			{
-				//isStart &&
-				<form
-					className={classes.root}
-					noValidate
-					autoComplete="off"
-					onSubmit={handlSubmit}
+			<form
+				className={classes.root}
+				noValidate
+				autoComplete="off"
+				onSubmit={handlSubmit}
+			>
+				<FormControl
+					variant="filled"
+					sx={{
+						justifyContent: "space-between",
+						height: 300,
+						minWidth: 250,
+						paddingTop: 1.9,
+						paddingBottom: 1.9,
+					}}
 				>
 					<TextField
-						margin="normal"
+						//margin="normal"
 						required
 						fullWidth
 						id="email"
-						label="Email Address"
-						name="email"
-						autoComplete="email"
+						label="Username"
+						name="username"
+						autoComplete="username"
+						variant="outlined"
+						InputLabelProps={{ shrink: true }}
+						/* inputProps={{
+							pattern:
+								"^[a-z0-9]+(.[_a-z0-9]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,15})$",
+						}}
+						va */ lue={usuario.email}
+						onChange={(e) => handlChangeUsername(e)}
 						autoFocus
-						variant="outlined"
-						value={usuario.email}
-						onChange={(e) => handlChangeEmail(e)}
 					/>
-					{/* <TextField
-						id="outlined-basic"
-						label="Rol"
-						variant="outlined"
-						value={usuario.role}
-						onChange={(e) => handlChangeRole(e)}
-					/> */}
-					<FormControl variant="outlined" sx={{ m: 1, minWidth: 120 }}>
+					<FormControl variant="outlined">
 						<InputLabel id="demo-simple-select-label">Rol</InputLabel>
 						<Select
 							id="outlined-basic"
 							label="Rol"
-							margin="normal"
+							//margin="normal"
 							required
 							//variant="outlined"
 							value={usuario.role}
@@ -125,7 +140,7 @@ const CreateUser = ({
 						</Select>
 					</FormControl>
 					<TextField
-						margin="normal"
+						//margin="normal"
 						required
 						fullWidth
 						name="password"
@@ -158,8 +173,8 @@ const CreateUser = ({
 					>
 						Limpiar
 					</Button>
-				</form>
-			}
+				</FormControl>
+			</form>
 		</>
 	);
 };

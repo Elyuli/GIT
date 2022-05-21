@@ -1,0 +1,18 @@
+.crud-create-gateway-form {
+	/* display: -webkit-inline-box;
+	display: -webkit-inline-flex;
+	display: -ms-inline-flexbox; */
+	display: flex;
+	-webkit-flex-direction: column;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	position: relative;
+	height: 300px;
+	min-width: 0;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	vertical-align: top;
+}

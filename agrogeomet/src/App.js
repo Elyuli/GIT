@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
 	HashRouter,
 	Route,
@@ -11,19 +11,22 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Users from "./pages/Users";
 import NotFound from "./pages/NotFound";
+import { GlobalProvider } from "./context/GlobalContext";
 
 function App() {
 	return (
-		<div className="App">
-			<Router>
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/login" element={<Login />} />
-					<Route path="/usuarios" element={<Users />} />
-					<Route path="*" element={<NotFound />} />
-				</Routes>
-			</Router>
-		</div>
+		<GlobalProvider>
+			<div className="App">
+				<Router>
+					<Routes>
+						<Route path="/" element={<Login />} />
+						<Route path="/agrogeomet" element={<Home />} />
+						<Route path="/usuarios" element={<Users />} />
+						<Route path="*" element={<NotFound />} />
+					</Routes>
+				</Router>
+			</div>
+		</GlobalProvider>
 	);
 }
 

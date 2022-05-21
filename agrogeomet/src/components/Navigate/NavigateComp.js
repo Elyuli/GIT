@@ -4,6 +4,7 @@ import InfoButton from "./InfoButton";
 import HelpButton from "./HelpButton";
 import CrudButton from "./CrudButton";
 import Login from "./Login";
+import CerrarSesion from "./CerrarSesion";
 
 const Navigate = ({ setRun, run }) => {
 	return (
@@ -11,7 +12,7 @@ const Navigate = ({ setRun, run }) => {
 			<HelpButton setRun={setRun} run={run} />
 			<InfoButton />
 			<CrudButton />
-			<Login />
+			<CerrarSesion />
 		</div>
 	);
 };

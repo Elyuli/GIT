@@ -16,7 +16,7 @@ const Fallback = ({ open, setOpen, error, setIsStart }) => {
 								size="small"
 								onClick={() => {
 									setOpen(false);
-									setIsStart(false);
+									//	setIsStart(false);
 								}}
 							>
 								<CloseIcon fontSize="inherit" />

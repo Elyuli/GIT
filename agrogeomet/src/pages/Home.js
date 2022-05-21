@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Map from "../components/Map/Map";
 import * as ol from "ol";
@@ -17,9 +17,11 @@ import Loader from "../components/Loader/Loader";
 import BingMap from "../components/Map/BingMap";
 import Layers from "../components/ListLayers/Layers";
 import TileLayerComp from "../components/ListLayers/TileLayerComp";
-import Navigate from "../components/Navigate/Navigate";
+import NavigateComp from "../components/Navigate/NavigateComp";
 import TableInfo from "../components/Table/TableInfo";
 import useTour from "../hooks/useTour";
+import GlobalContext from "../context/GlobalContext";
+import { Navigate } from "react-router-dom";
 
 const STEPS = [
 	{
@@ -82,6 +84,7 @@ const STEPS = [
 ];
 
 const Home = () => {
+	const { logueado, setLogueado } = useContext(GlobalContext);
 	const [map, setMap] = useState(new ol.Map());
 	const [isBtnApiActive, setIsBtnApiActive] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -213,94 +216,101 @@ const Home = () => {
 		tableData,
 	]);
 
-	return (
-		<ApiProvider
-			isBtnApiActive={isBtnApiActive}
-			setIsBtnApiActive={setIsBtnApiActive}
-			loading={loading}
-			setLoading={setLoading}
-			setNameLayerHome={setNameLayerHome}
-			setNameWorkHome={setNameWorkHome}
-			setCheckObjectHome={setCheckObjectHome}
-			setListLayersActiveHome={setListLayersActiveHome}
-			setCheckboxes={setCheckboxes}
-			setIsActiveInfoHome={setIsActiveInfoHome}
-		>
-			{tour}
-			<Navigate setRun={setRun} run={run} />
-			<BingMapProvider>
-				<Map
-					map={map}
-					setMap={setMap}
-					handlOnClickGetInfoTileLayer={handlOnClickGetInfoTileLayer}
-				>
-					{isBtnApiActive ? (
-						<SideBarLeft
-							isBtnApiActive={isBtnApiActive}
-							setIsBtnApiActive={setIsBtnApiActive}
-							handlOnChangeCheckLayer={handlOnChangeCheckLayer}
-						/>
-					) : (
-						<Header setIsBtnApiActive={setIsBtnApiActive} />
-					)}
-					<Controls>
-						<FullScreenControl />
-						<MousePositionControl />
-					</Controls>
-					<BingMap />
-					<Layers>
-						{nameWorkHome &&
-							listLayersActiveHome &&
-							checkboxes &&
-							checkboxes[nameWorkHome].map(({ name, checked }, i) => {
-								//console.log("checkbox>>>", checked);
+	/* 	useEffect(() => {
+		setLogueado(logueado);
+	}, [logueado]); */
 
-								return checked ? (
-									<TileLayerComp
-										key={i}
-										map={map}
-										setMap={setMap}
-										checkbox={checked}
-										wmsLayer={wmsLayer}
-										setWmsLayer={setWmsLayer}
-										setLoading={setLoading}
-									/>
-								) : (
-									map
-										.getLayers()
-										.getArray()
-										.forEach((layer) => {
-											if (
-												layer.get("name") &&
-												layer.get("name") === `${nameWorkHome}:${name}`
-											) {
-												layer.getSource().clear();
-												map.removeLayer(layer);
-												setMap(map);
-											}
-										})
-								);
-							})}
-					</Layers>
-					{loading && <Loader />}
-				</Map>
-				{isActiveTable && (
-					<TableInfo
-						isBtnApiActive={isBtnApiActive}
-						handlOnClickCloseTable={handlOnClickCloseTable}
-						tableData={tableData}
-						setTableData={setTableData}
-						nameLayersHome={nameLayersHome}
-						loading={loading}
-						isActiveTable={isActiveTable}
-						setTableWidth={setTableWidth}
-						tableWidth={tableWidth}
-						setPropTransform={setPropTransform}
-						propTransform={propTransform}
-					/>
-				)}
-			</BingMapProvider>
-		</ApiProvider>
+	return (
+		<>
+			{!logueado && <Navigate to="/" replace={true} />}
+			<ApiProvider
+				isBtnApiActive={isBtnApiActive}
+				setIsBtnApiActive={setIsBtnApiActive}
+				loading={loading}
+				setLoading={setLoading}
+				setNameLayerHome={setNameLayerHome}
+				setNameWorkHome={setNameWorkHome}
+				setCheckObjectHome={setCheckObjectHome}
+				setListLayersActiveHome={setListLayersActiveHome}
+				setCheckboxes={setCheckboxes}
+				setIsActiveInfoHome={setIsActiveInfoHome}
+			>
+				{tour}
+				<NavigateComp setRun={setRun} run={run} />
+				<BingMapProvider>
+					<Map
+						map={map}
+						setMap={setMap}
+						handlOnClickGetInfoTileLayer={handlOnClickGetInfoTileLayer}
+					>
+						{isBtnApiActive ? (
+							<SideBarLeft
+								isBtnApiActive={isBtnApiActive}
+								setIsBtnApiActive={setIsBtnApiActive}
+								handlOnChangeCheckLayer={handlOnChangeCheckLayer}
+							/>
+						) : (
+							<Header setIsBtnApiActive={setIsBtnApiActive} />
+						)}
+						<Controls>
+							<FullScreenControl />
+							<MousePositionControl />
+						</Controls>
+						<BingMap />
+						<Layers>
+							{nameWorkHome &&
+								listLayersActiveHome &&
+								checkboxes &&
+								checkboxes[nameWorkHome].map(({ name, checked }, i) => {
+									//console.log("checkbox>>>", checked);
+
+									return checked ? (
+										<TileLayerComp
+											key={i}
+											map={map}
+											setMap={setMap}
+											checkbox={checked}
+											wmsLayer={wmsLayer}
+											setWmsLayer={setWmsLayer}
+											setLoading={setLoading}
+										/>
+									) : (
+										map
+											.getLayers()
+											.getArray()
+											.forEach((layer) => {
+												if (
+													layer.get("name") &&
+													layer.get("name") === `${nameWorkHome}:${name}`
+												) {
+													layer.getSource().clear();
+													map.removeLayer(layer);
+													setMap(map);
+												}
+											})
+									);
+								})}
+						</Layers>
+						{loading && <Loader />}
+					</Map>
+					{isActiveTable && (
+						<TableInfo
+							isBtnApiActive={isBtnApiActive}
+							handlOnClickCloseTable={handlOnClickCloseTable}
+							tableData={tableData}
+							setTableData={setTableData}
+							nameLayersHome={nameLayersHome}
+							loading={loading}
+							isActiveTable={isActiveTable}
+							setTableWidth={setTableWidth}
+							tableWidth={tableWidth}
+							setPropTransform={setPropTransform}
+							propTransform={propTransform}
+						/>
+					)}
+				</BingMapProvider>
+			</ApiProvider>
+		</>
 	);
 };
 

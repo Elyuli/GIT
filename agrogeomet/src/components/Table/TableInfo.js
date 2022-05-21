@@ -137,10 +137,10 @@ const TableInfo = ({
 
 		const prevPage = currentPage - 1;
 
-		if (prevPage === 1) {
-			//	e.target.classList.add("rc-tabs-tab-btn-disabled");
+		if (prevPage === 0) {
+			//e.target.classList.add("rc-tabs-tab-btn-disabled");
 			return;
-		} /* else e.target.classList.remove("rc-tabs-tab-btn-disabled"); */
+		} //else e.target.classList.remove("rc-tabs-tab-btn-disabled");
 
 		setCurrentPage(prevPage);
 	};
@@ -171,8 +171,10 @@ const TableInfo = ({
 				active = true;
 				aux.push({ name: name, id: id, active: active });
 
-				let transform = propTransform * (uid - 1);
-				let transformBottom = 184 * (uid - 1);
+				let transform = (100 / labels.length) * (uid - 1);
+				console.log("transform", transform);
+				//let transform = propTransform * uid;
+				//	let transformBottom = 184 * (uid - 1);
 				slidesRef.current.style.transform = `translateX(${-transform}%)`;
 			} else {
 				active = false;

@@ -1,23 +1,20 @@
 import React, { useContext } from "react";
-import ApiContext from "../../context/ApiContext";
+import { Navigate } from "react-router-dom";
+import GlobalContext from "../../context/GlobalContext";
 
 const CrudButton = () => {
-	const { isActiveCrud, setIsActiveCrud, handlOnClickIHelpBtn } =
-		useContext(ApiContext);
+	const { isActiveCrud, setIsActiveCrud } = useContext(GlobalContext);
 	return (
 		<div
-			className={
-				isActiveCrud
-					? "toolbar-item fa fa-user-plus help active"
-					: "toolbar-item fa fa-user-plus help"
-			}
+			className={"toolbar-item fa fa-user-plus help"}
 			data-tut="reactour_crud"
 			onClick={() => {
-				setIsActiveCrud(!isActiveCrud);
+				setIsActiveCrud(true);
 			}}
 		>
+			{isActiveCrud && <Navigate to="/usuarios" replace={true} />}
 			<div className="toolbar-menu hidden"></div>
-			<span className="tooltip bottom ">Ayuda</span>
+			<span className="tooltip bottom ">Administración</span>
 		</div>
 	);
 };

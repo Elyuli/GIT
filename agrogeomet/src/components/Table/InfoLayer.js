@@ -40,7 +40,7 @@ const InfoLayer = ({
 		<>
 			{Object.keys(labels)
 				.slice(firstPageIndex, lastPageIndex)
-				.map((i) => {
+				.map((i = 1) => {
 					//console.log("labels[i]", labels[i]);
 					const { name, id } = labels[i];
 
