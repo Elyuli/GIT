@@ -1,6 +1,7 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Buffer } from "buffer";
+import GlobalContext from "./GlobalContext";
 
 const ApiContext = createContext();
 
@@ -20,15 +21,6 @@ const ApiProvider = ({
 	const [layers, setLayers] = useState([]);
 	const [error, setError] = useState(null);
 	const [isStart, setIsStart] = useState(false);
-	const [pass, setPass] = useState(
-		Buffer.from("admin:geoserver").toString("base64")
-	);
-	const [option, setOption] = useState({
-		headers: {
-			Authorization: `Basic ${pass}`,
-			Methods: `Access-Control-Allow-Origin`,
-		},
-	});
 	const [workspaces, setWorkspaces] = useState([]);
 	const urlWorkspaces = `http://localhost:8080/geoserver/rest/workspaces.json`;
 	const [nameWork, setNameWork] = useState("");
@@ -40,8 +32,39 @@ const ApiProvider = ({
 	const [isActiveInfo, setIsActiveInfo] = useState(false);
 	const [isActiveHelp, setIsActiveHelp] = useState(false);
 	const [isActiveCrud, setIsActiveCrud] = useState(false);
+	const { user } = useContext(GlobalContext);
+	const [pass, setPass] = useState(
+		Buffer.from(`${user.username}:${user.password}`).toString("base64")
+	);
+	const [option, setOption] = useState({
+		headers: {
+			Authorization: `Basic ${pass}`,
+			Methods: `Access-Control-Allow-Origin`,
+		},
+	});
+
+	//const pass = Buffer.from(`${user.username}:${user.password}`).toString("base64");
+
+	/* 	function addAuthorizationHeaders(config) {
+		if (pass) {
+			config.headers.Authorization = `Basic ${pass}`;
+			//config.headers['Access-Control-Allow-Origin'] = '*'
+			//config.headers['Content-Type'] = 'text/xml'
+		}
+		return config;
+	}
+
+	axios.interceptors.request.use(addAuthorizationHeaders); */
+
+	/* const instance = axios.create({
+		baseURL: "http://localhost:8080/geoserver/",
+	});
+
+	// Modificar valores por defecto después que una instancia ha sido creada
+	instance.defaults.headers.common["Authorization"] = pass; */
 
 	useEffect(() => {
+		if (user === null) return;
 		setLoading(true);
 
 		const fetchData = async () => {
@@ -74,7 +97,7 @@ const ApiProvider = ({
 			setLoading(false);
 		};
 		fetchData();
-	}, []);
+	}, [user]);
 
 	useEffect(() => {
 		//console.log("workspaces", workspaces);
@@ -82,7 +105,8 @@ const ApiProvider = ({
 
 		workspaces.map(({ name }, i) => {
 			let workLayers = [];
-			layers.map((layer) => {
+			layers.map((layer, j) => {
+				//	console.log("layers[i]", layers[j]);
 				if (layer.name.includes(name))
 					workLayers.push({
 						name: layer.name.substring(name.length + 1),

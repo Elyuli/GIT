@@ -54,7 +54,7 @@ const TableInfo = ({
 	}, [isBtnApiActive]);
 
 	useEffect(() => {
-		//console.log("tableData", tableData);
+		console.log("tableData", tableData);
 		if (Object.keys(tableData).length === 0) return;
 
 		let contador = 0;
@@ -218,7 +218,7 @@ const TableInfo = ({
 													<span
 														unselectable="unselectable"
 														className={classnames("rc-tabs-tab-prev", {
-															disabled: currentPage === 1,
+															//disabled: currentPage === 1,
 														})}
 														onClick={(e) => prevHandler(e)}
 													>
@@ -285,13 +285,17 @@ const TableInfo = ({
 										</aside>
 										{Object.keys(tableData).length > 0 &&
 											Object.keys(tableData).map((i) => {
-												/* console.log(
-										"table-data-propertie>>>",
-										Object.values(tableData[i][propertie])
-									); */
 												const propertie = Object.keys(tableData[i]);
+												console.log(
+													"table-data-propertie>>>",
+													Object.values(tableData[i][propertie])
+												);
 												let size;
-												if (propertie !== null || propertie !== undefined) {
+												if (
+													propertie !== null ||
+													propertie !== undefined ||
+													Object.values(tableData[i][propertie]).length > 0
+												) {
 													size = Object.values(tableData[i][propertie]).length;
 												}
 

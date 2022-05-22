@@ -19,8 +19,8 @@ const TileLayerComp = ({
 	useEffect(() => {
 		if (!map) return;
 
-		console.log("nameWork-Tile", nameWork);
-		console.log("nameLayer-check", nameLayer);
+		//console.log("nameWork-Tile", nameWork);
+		//console.log("nameLayer-check", nameLayer);
 
 		const tileLayer = new OLTileLayer({
 			source: new TileWMS({
@@ -48,8 +48,7 @@ const TileLayerComp = ({
 				.getArray()
 				.find(
 					(layer) =>
-						layer.get("name") &&
-						layer.get("name") === tileLayer.get("name")
+						layer.get("name") && layer.get("name") === tileLayer.get("name")
 				)
 		) {
 			//console.log("nameLayer-home", nameLayer);
@@ -57,8 +56,8 @@ const TileLayerComp = ({
 			setLoading(true);
 			console.log("tileLayer-home", tileLayer.get("name"));
 			map.addLayer(tileLayer);
-			setLoading(false);
 			setMap(map);
+			setLoading(false);
 			console.log("map-TILE", map.getLayers().getArray());
 		}
 	}, [checkbox]);

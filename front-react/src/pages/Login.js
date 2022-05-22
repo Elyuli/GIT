@@ -43,7 +43,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
-	const { logueado, setLogueado } = useContext(GlobalContext);
+	const { logueado, setLogueado, setUser } = useContext(GlobalContext);
 	const [open, setOpen] = useState(false);
 	const [error, setError] = useState(null);
 	const [usuario, setUsuario] = useState(initialUser);
@@ -65,6 +65,7 @@ export default function SignIn() {
 		axios
 			.post("http://localhost:5000/login", data)
 			.then(() => {
+				setUser(data);
 				setOpen(false);
 				setError(null);
 				setLogueado(true);

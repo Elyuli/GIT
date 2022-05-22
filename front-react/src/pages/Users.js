@@ -90,16 +90,20 @@ const Usuarios = () => {
 			});
 	};
 
-	const updateData = (id, data) => {
-		const promises = [];
+	const updateData = (uid, data) => {
+		const arrayUser = [];
+		usersList.map((user, i) => {
+			const { id } = user;
+			arrayUser[id] = user;
+		});
 
 		axios
-			.put(`http://localhost:5000/updateUser/${id}`, data)
+			.put(`http://localhost:5000/updateUser/${uid}`, data)
 			.then(() => {
 				//window.location.reload(false);
-				let newArray = [...usersList, data];
-				//newArray[id] = data;
-				setUsersList(newArray);
+				//let newArray = [];
+				arrayUser[uid] = data;
+				setUsersList(arrayUser);
 				setError(null);
 				setOpen(false);
 			})

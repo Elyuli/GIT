@@ -4,6 +4,7 @@ import Map from "../components/Map/Map";
 import * as ol from "ol";
 import TileLayer from "ol/layer/Tile";
 import { BingMapProvider } from "../context/BingMapContext";
+import { Buffer } from "buffer";
 
 import {
 	Controls,
@@ -104,11 +105,16 @@ const Home = () => {
 	const [propTransform, setPropTransform] = useState(0);
 	const [run, setRun] = useState(false);
 	const tour = useTour(STEPS, "LS_KEY", run);
-
-	/* useEffect(() => {
-		setTableData(tableData);
-		console.log("tableData", tableData);
-	}, [tableData]); */
+	const { user } = useContext(GlobalContext);
+	const [pass, setPass] = useState(
+		Buffer.from(`${user.username}:${user.password}`).toString("base64")
+	);
+	const [option, setOption] = useState({
+		headers: {
+			Authorization: `Basic ${pass}`,
+			Methods: `Access-Control-Allow-Origin`,
+		},
+	});
 
 	const handlOnChangeCheckLayer = (checks) => {
 		//console.log("checks", checks);
@@ -174,7 +180,7 @@ const Home = () => {
 				mapRef.classList.add("sidebar-bottom-open");
 				setIsActiveTable(true);
 
-				result = axios.get(url);
+				result = axios.get(url, option);
 				promises.push(result);
 				//promises.push({ LAYERS: result });
 			} else {
@@ -215,10 +221,6 @@ const Home = () => {
 		isActiveInfoHome,
 		tableData,
 	]);
-
-	/* 	useEffect(() => {
-		setLogueado(logueado);
-	}, [logueado]); */
 
 	return (
 		<>

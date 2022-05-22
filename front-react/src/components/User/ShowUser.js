@@ -32,7 +32,7 @@ const ShowUser = ({ usersList, deleteData, setIsStart, setDataToEdit }) => {
 					<TableHead bgcolor="#083d6b">
 						<TableRow>
 							<TableCell align="center">
-								<span style={{ color: "#fff" }}>Email</span>
+								<span style={{ color: "#fff" }}>Username</span>
 							</TableCell>
 							<TableCell align="center">
 								<span style={{ color: "#fff" }}>Rol</span>
@@ -48,13 +48,13 @@ const ShowUser = ({ usersList, deleteData, setIsStart, setDataToEdit }) => {
 					<TableBody>
 						{usersList.length > 0 &&
 							usersList.map((usuario, i) => {
-								const { email, role, password } = usersList[i];
+								const { username, role, password } = usersList[i];
 								return (
-									<TableRow key={`${email}-${i}`}>
+									<TableRow key={`${username}-${i}`}>
 										{/* 	<TableCell component="th" scope="row">
 										{user}
 									</TableCell> */}
-										<TableCell align="center">{email}</TableCell>
+										<TableCell align="center">{username}</TableCell>
 										<TableCell align="center">{role}</TableCell>
 										<TableCell align="center" overflow="auto">
 											*****

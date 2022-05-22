@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const initialUser = {
-	email: "",
+	username: "",
 	password: "",
 	role: "",
 };
@@ -109,7 +109,7 @@ const CreateUser = ({
 						//margin="normal"
 						required
 						fullWidth
-						id="email"
+						id="username"
 						label="Username"
 						name="username"
 						autoComplete="username"
@@ -118,8 +118,8 @@ const CreateUser = ({
 						/* inputProps={{
 							pattern:
 								"^[a-z0-9]+(.[_a-z0-9]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,15})$",
-						}}
-						va */ lue={usuario.email}
+						}}*/
+						value={usuario.username}
 						onChange={(e) => handlChangeUsername(e)}
 						autoFocus
 					/>
