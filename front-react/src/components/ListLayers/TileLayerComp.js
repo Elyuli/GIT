@@ -30,13 +30,16 @@ const TileLayerComp = ({
 					TILED: true,
 				},
 				serverType: "geoserver",
+				//crossOrigin: "anonymous",
 				// Countries have transparency, so do not fade tiles:
 				transition: 0,
 			}),
-			zIndex: 1,
+			//zIndex: 10,
 		});
 
 		tileLayer.set("name", `${nameWork}:${nameLayer}`);
+		//tileLayer.set("zIndex", 10);
+		tileLayer.setZIndex(10);
 		//wmsLayer.push(tileLayer);
 		//setWmsLayer(wmsLayer);
 

@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import "font-awesome/css/font-awesome.css";
-import ApiContext from "../../context/ApiContext";
 
 const AddUserButton = ({ isStart, setIsStart }) => {
 	const spanHeaderRef = useRef();

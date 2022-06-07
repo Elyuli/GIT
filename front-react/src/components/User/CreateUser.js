@@ -115,10 +115,9 @@ const CreateUser = ({
 						autoComplete="username"
 						variant="outlined"
 						InputLabelProps={{ shrink: true }}
-						/* inputProps={{
-							pattern:
-								"^[a-z0-9]+(.[_a-z0-9]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,15})$",
-						}}*/
+						inputProps={{
+							pattern: "^[A-Za-zÑñÁáÉéÍíÓóÚúÜüs]+$",
+						}}
 						value={usuario.username}
 						onChange={(e) => handlChangeUsername(e)}
 						autoFocus

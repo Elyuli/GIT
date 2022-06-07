@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../axios";
 import { Buffer } from "buffer";
 import GlobalContext from "./GlobalContext";
 
@@ -32,24 +32,26 @@ const ApiProvider = ({
 	const [isActiveInfo, setIsActiveInfo] = useState(false);
 	const [isActiveHelp, setIsActiveHelp] = useState(false);
 	const [isActiveCrud, setIsActiveCrud] = useState(false);
-	const { user } = useContext(GlobalContext);
-	const [pass, setPass] = useState(
-		Buffer.from(`${user.username}:${user.password}`).toString("base64")
+	const { user, option, pass } = useContext(GlobalContext);
+	/* const [pass, setPass] = useState(
+		Buffer.from(`admin:geoserver`).toString("base64")
 	);
 	const [option, setOption] = useState({
 		headers: {
 			Authorization: `Basic ${pass}`,
-			Methods: `Access-Control-Allow-Origin`,
+			Methods: "Access-Control-Allow-Origin",
 		},
-	});
+	}); */
 
-	//const pass = Buffer.from(`${user.username}:${user.password}`).toString("base64");
+	/* 	const pass = Buffer.from(`${user.username}:${user.password}`).toString(
+		"base64"
+	);
 
-	/* 	function addAuthorizationHeaders(config) {
+	function addAuthorizationHeaders(config) {
 		if (pass) {
 			config.headers.Authorization = `Basic ${pass}`;
-			//config.headers['Access-Control-Allow-Origin'] = '*'
-			//config.headers['Content-Type'] = 'text/xml'
+			//config.headers["Access-Control-Allow-Origin"] = "*";
+			//config.headers["Content-Type"] = "text/xml";
 		}
 		return config;
 	}
@@ -57,22 +59,35 @@ const ApiProvider = ({
 	axios.interceptors.request.use(addAuthorizationHeaders); */
 
 	/* const instance = axios.create({
-		baseURL: "http://localhost:8080/geoserver/",
+		baseURL: "http://localhost:8080/geoserver/rest/",
 	});
 
 	// Modificar valores por defecto después que una instancia ha sido creada
-	instance.defaults.headers.common["Authorization"] = pass; */
+	//instance.defaults.headers.common["Authorization"] = `Basic ${pass}`;
+	//instance.defaults.headers.common["Content-Type"] = `text/xml;charset=utf-8`; */
 
 	useEffect(() => {
 		if (user === null) return;
+
+		/* const username = user.username.toString();
+		const password = user.password.toString();
+		const pass = Buffer.from(`${username}:${password}`).toString("base64");
+		const option = {
+			headers: {
+				Authorization: `Basic ${pass}`,
+				["Content-Type"]: "text/xml",
+				Methods: "Access-Control-Allow-Origin",
+			},
+		}; */
+
 		setLoading(true);
 
 		const fetchData = async () => {
-			let urlWorkspaces = `http://localhost:8080/geoserver/rest/workspaces.json`;
-			let urlLayers = `http://localhost:8080/geoserver/rest/layers.json`;
+			let urlWorkspaces = `/workspaces.json`;
+			let urlLayers = `/layers.json`;
 
 			const [workspaces, layers] = await Promise.all([
-				axios.get(urlWorkspaces, option).then((res) => {
+				axios.get(urlWorkspaces).then((res) => {
 					if (res.data) {
 						setError(null);
 						return res.data.workspaces.workspace;
@@ -81,7 +96,7 @@ const ApiProvider = ({
 						return [];
 					}
 				}),
-				axios.get(urlLayers, option).then((res) => {
+				axios.get(urlLayers).then((res) => {
 					if (res.data) {
 						setError(null);
 						return res.data.layers.layer;

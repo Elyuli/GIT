@@ -34,9 +34,25 @@ const Usuarios = () => {
 	const [error, setError] = useState(null);
 	const [isStart, setIsStart] = useState(false);
 	const [usersList, setUsersList] = useState([]);
+	const [data, setData] = useState([]);
 	const [dataToEdit, setDataToEdit] = useState(null);
 	const [open, setOpen] = useState(false);
 	const { isActiveCrud, setIsActiveCrud, logueado } = useContext(GlobalContext);
+
+	useEffect(() => {
+		if (data.length === 0) return;
+		const arrayUser = [];
+		console.log("data", data);
+		Object.keys(data).map((i) => {
+			const username = data[i]["username"];
+			console.log("data-username", username);
+
+			arrayUser.push({ [username]: data[i] });
+		});
+		setUsersList([...arrayUser]);
+
+		console.log("usersList", usersList);
+	}, [data]);
 
 	useEffect(() => {
 		setLoading(true);
@@ -44,7 +60,7 @@ const Usuarios = () => {
 			.get(url)
 			.then((usuarios) => {
 				console.log("usuarios", usuarios.data.data);
-				setUsersList([...usuarios.data.data]);
+				setData([...usuarios.data.data]);
 				setError(null);
 				setOpen(false);
 			})
@@ -65,14 +81,23 @@ const Usuarios = () => {
 		setLoading(false);
 	}, [url]);
 
-	const createData = (data) => {
+	/* useEffect(() => {
+		setUsersList(usersList);
+		console.log("usersList", usersList);
+	}, [usersList]); */
+
+	const createData = (user) => {
 		axios
-			.post(`http://localhost:5000/createUser`, data)
+			.post(`http://localhost:5000/createUser`, user)
 			.then(() => {
 				//window.location.reload(false);
-				setUsersList([...usersList, data]);
+				const { username } = user;
+				user.id = Date.now();
+				const array = [];
+				array.push({ [username]: user });
+				setUsersList([...usersList, ...array]);
 				setOpen(false);
-				console.log("HERE>>>");
+				//console.log("HERE>>>");
 				setError(null);
 			})
 			.catch((err) => {
@@ -90,22 +115,28 @@ const Usuarios = () => {
 			});
 	};
 
-	const updateData = (uid, data) => {
-		const arrayUser = [];
-		usersList.map((user, i) => {
-			const { id } = user;
-			arrayUser[id] = user;
+	const updateData = (uid, user) => {
+		const arrayUser = usersList;
+		const { username } = user;
+		Object.keys(arrayUser).map((i) => {
+			const propertie = Object.keys(arrayUser[i]);
+			//console.log("propertie>>>", propertie);
+			if (propertie[0] === username) {
+				arrayUser[i][propertie] = user;
+			}
 		});
+		//console.log("user>>>", user);
+		//console.log("arrayUser>>>", arrayUser);
 
 		axios
-			.put(`http://localhost:5000/updateUser/${uid}`, data)
+			.put(`http://localhost:5000/updateUser/${uid}`, user)
 			.then(() => {
 				//window.location.reload(false);
 				//let newArray = [];
-				arrayUser[uid] = data;
-				setUsersList(arrayUser);
-				setError(null);
-				setOpen(false);
+				//arrayUser[uid] = data;
+				setUsersList([...arrayUser]);
+				//setError(null);
+				//setOpen(false);
 			})
 			.catch((err) => {
 				console.log("err.message", err.message);
@@ -122,11 +153,14 @@ const Usuarios = () => {
 			});
 	};
 
-	const deleteData = (id) => {
+	const deleteData = (id, user) => {
+		const { username } = user;
+		const array = usersList.filter((obj) => Object.keys(obj)[0] !== username);
 		axios
-			.delete(`http://localhost:5000/deleteUser/${id}`)
+			.delete(`http://localhost:5000/deleteUser/${username}`)
 			.then(() => {
-				window.location.reload(false);
+				//window.location.reload(false);
+				setUsersList([...array]);
 				setError(null);
 				setOpen(false);
 			})
@@ -148,7 +182,7 @@ const Usuarios = () => {
 	return (
 		<>
 			{!logueado && <Navigate to="/" replace={true} />}
-			{!isActiveCrud && <Navigate to="/agrogeomet" replace={true} />}
+			{!isActiveCrud && <Navigate to="/visor" replace={true} />}
 
 			<Container maxWidth="lg">
 				<AppBar className={classes.appBar} position="static" color="inherit">

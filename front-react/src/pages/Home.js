@@ -23,14 +23,19 @@ import TableInfo from "../components/Table/TableInfo";
 import useTour from "../hooks/useTour";
 import GlobalContext from "../context/GlobalContext";
 import { Navigate } from "react-router-dom";
+import { defaults as defaultControls } from "ol/control";
 
 const STEPS = [
 	{
 		content: (
-			<div>
-				Bienvenido a la Ayuda!
-				<br />
-				<h3>Like this H3 title</h3>
+			<div
+				className="introjs-tooltip"
+				style={{ opacity: 1, display: "block", left: 0, top: 50 }}
+			>
+				<div class="introjs-tooltiptext">
+					"¡Bienvenido a Joyrider 2.0! Este tutorial mostrará rápidamente las
+					características de la plataforma."
+				</div>
 			</div>
 		),
 		placement: "center",
@@ -41,49 +46,196 @@ const STEPS = [
 			back: <strong aria-label="back">Atrás</strong>,
 		},
 		styles: {
-			buttonNext: { backgroundColor: "#222" },
+			buttonNext: { backgroundColor: "#182d4c" },
+			buttonBack: { color: "#182d4c" },
+			buttonSkip: {
+				backgroundColor: "#182d4c",
+				color: "#fff",
+				borderRadius: 4,
+			},
+			tooltip: { width: 300 },
 		},
 	},
 	{
 		content: (
-			<div>
-				You can render anything!
-				<br />
-				<h3>Like this H3 title</h3>
+			<div
+				className="introjs-tooltip"
+				style={{ opacity: 1, display: "block", left: 0, top: 50 }}
+			>
+				<div className="introjs-tooltiptext">
+					Menú: Aquí puede elegir varias capas para mostrar en el mapa.
+				</div>
+			</div>
+		),
+		placement: "right",
+		target: '[data-tut="reactour_btnApi"]',
+		locale: {
+			skip: <strong aria-label="skip">Dejar</strong>,
+			next: <strong aria-label="next">Próximo</strong>,
+			back: <strong aria-label="back">Atrás</strong>,
+		},
+		styles: {
+			buttonNext: { backgroundColor: "#182d4c" },
+			buttonBack: { color: "#182d4c" },
+			buttonSkip: {
+				backgroundColor: "#182d4c",
+				color: "#fff",
+				borderRadius: 4,
+			},
+			tooltip: { width: 300 },
+		},
+	},
+	{
+		content: (
+			<div
+				className="introjs-tooltip"
+				style={{ opacity: 1, display: "block", left: 0, top: 50 }}
+			>
+				<div className="introjs-tooltiptext">
+					Zoom: Aquí puede hacer zoom en el mapa.
+				</div>
+			</div>
+		),
+		placement: "left",
+		target: '[className="ol-zoom"]',
+		locale: {
+			skip: <strong aria-label="skip">Dejar</strong>,
+			next: <strong aria-label="next">Próximo</strong>,
+			back: <strong aria-label="back">Atrás</strong>,
+		},
+		styles: {
+			buttonNext: { backgroundColor: "#182d4c" },
+			buttonBack: { color: "#182d4c" },
+			buttonSkip: {
+				backgroundColor: "#182d4c",
+				color: "#fff",
+				borderRadius: 4,
+			},
+			tooltip: { width: 300 },
+		},
+	},
+	{
+		content: (
+			<div
+				className="introjs-tooltip"
+				style={{ opacity: 1, display: "block", left: 0, top: 50 }}
+			>
+				<div className="introjs-tooltiptext">
+					Aquí encontrará diferentes herramientas: Ayuda / Información de capas
+					/ Gestión de usuarios / Cerrar Sesión
+				</div>
 			</div>
 		),
 		placement: "bottom",
 		target: '[data-tut="reactour_toolbar"]',
-		title: "Our Mission",
-		floaterProps: {
-			disableAnimation: true,
-		},
-	},
-	{
-		content: "These are our super awesome projects!",
-		locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
-		placement: "bottom",
-		target: '[data-tut="reactour_help"]',
-		/* floaterProps: {
-			disableAnimation: true,
-		}, */
-	},
-	{
-		content: "These are our super awesome projects!",
-		placement: "bottom",
-		floaterProps: {
-			disableAnimation: true,
+		locale: {
+			skip: <strong aria-label="skip">Dejar</strong>,
+			next: <strong aria-label="next">Próximo</strong>,
+			back: <strong aria-label="back">Atrás</strong>,
 		},
 		styles: {
-			options: {
-				width: 300,
+			buttonNext: { backgroundColor: "#182d4c" },
+			buttonBack: { color: "#182d4c" },
+			buttonSkip: {
+				backgroundColor: "#182d4c",
+				color: "#fff",
+				borderRadius: 4,
 			},
+			tooltip: { width: 300 },
 		},
+	},
+	{
+		content: (
+			<div
+				className="introjs-tooltip"
+				style={{ opacity: 1, display: "block", left: 0, top: 50 }}
+			>
+				<div className="introjs-tooltiptext">
+					Haga clic sobre el mapa para ver información sobre los objetos
+				</div>
+			</div>
+		),
+		placement: "bottom",
 		target: '[data-tut="reactour_info"]',
-		title: "Our projects",
+		locale: {
+			skip: <strong aria-label="skip">Dejar</strong>,
+			next: <strong aria-label="next">Próximo</strong>,
+			back: <strong aria-label="back">Atrás</strong>,
+		},
+		styles: {
+			buttonNext: { backgroundColor: "#182d4c" },
+			buttonBack: { color: "#182d4c" },
+			buttonSkip: {
+				backgroundColor: "#182d4c",
+				color: "#fff",
+				borderRadius: 4,
+			},
+			tooltip: { width: 300 },
+		},
+	},
+	{
+		content: (
+			<div
+				className="introjs-tooltip"
+				style={{ opacity: 1, display: "block", left: 0, top: 50 }}
+			>
+				<div className="introjs-tooltiptext">
+					El botón dará acceso a la sección de Administración
+				</div>
+			</div>
+		),
+		placement: "bottom",
+		target: '[data-tut="reactour_crud"]',
+		locale: {
+			skip: <strong aria-label="skip">Dejar</strong>,
+			next: <strong aria-label="next">Próximo</strong>,
+			back: <strong aria-label="back">Atrás</strong>,
+		},
+		styles: {
+			buttonNext: { backgroundColor: "#182d4c" },
+			buttonBack: { color: "#182d4c" },
+			buttonSkip: {
+				backgroundColor: "#182d4c",
+				color: "#fff",
+				borderRadius: 4,
+			},
+			tooltip: { width: 300 },
+		},
+	},
+	{
+		content: (
+			<div
+				className="introjs-tooltip"
+				style={{ opacity: 1, display: "block", left: 0, top: 50 }}
+			>
+				<div className="introjs-tooltiptext">
+					El botón cierra la sesión del usuario
+				</div>
+			</div>
+		),
+		placement: "bottom",
+		target: '[data-tut="reactour_lock"]',
+		locale: {
+			skip: <strong aria-label="skip">Dejar</strong>,
+			next: <strong aria-label="next">Próximo</strong>,
+			back: <strong aria-label="back">Atrás</strong>,
+		},
+		styles: {
+			buttonNext: { backgroundColor: "#182d4c" },
+			buttonBack: { color: "#182d4c" },
+			buttonSkip: {
+				backgroundColor: "#182d4c",
+				color: "#fff",
+				borderRadius: 4,
+			},
+			tooltip: { width: 300 },
+		},
 	},
 ];
-
+const options = {
+	view: new ol.View({ zoom: 1, center: [0, 0] }),
+	controls: defaultControls(),
+};
 const Home = () => {
 	const { logueado, setLogueado } = useContext(GlobalContext);
 	const [map, setMap] = useState(new ol.Map());
@@ -105,16 +257,8 @@ const Home = () => {
 	const [propTransform, setPropTransform] = useState(0);
 	const [run, setRun] = useState(false);
 	const tour = useTour(STEPS, "LS_KEY", run);
-	const { user } = useContext(GlobalContext);
-	const [pass, setPass] = useState(
-		Buffer.from(`${user.username}:${user.password}`).toString("base64")
-	);
-	const [option, setOption] = useState({
-		headers: {
-			Authorization: `Basic ${pass}`,
-			Methods: `Access-Control-Allow-Origin`,
-		},
-	});
+	const { option } = useContext(GlobalContext);
+	//const [pass, setPass] = useState(null);
 
 	const handlOnChangeCheckLayer = (checks) => {
 		//console.log("checks", checks);
@@ -124,11 +268,11 @@ const Home = () => {
 
 	const handlOnClickGetInfoTileLayer = async (e, mapRef) => {
 		if (e.target.tagName !== "CANVAS") return;
+		//	if (option.length === 0) return;
 		if (!isActiveInfoHome) return;
 
 		setRefMap(mapRef);
 		setLoading(true);
-
 		const view = map.getView();
 		const viewResolution = view.getResolution();
 		const viewProjection = view.getProjection();

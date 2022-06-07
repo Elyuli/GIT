@@ -1299,6 +1299,63 @@ img {
 	transition-property: width, min-width, padding, opacity;
 }
 
+/* *********** Joyrider Tour ************/
+
+/* .introjs-tooltip {
+	box-sizing: content-box;
+	position: absolute;
+	visibility: visible;
+	padding: 10px;
+	background-color: white;
+	min-width: 200px;
+	max-width: 300px;
+	border-radius: 3px;
+	box-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
+	-webkit-transition: opacity 0.1s ease-out;
+	-moz-transition: opacity 0.1s ease-out;
+	-ms-transition: opacity 0.1s ease-out;
+	-o-transition: opacity 0.1s ease-out;
+	transition: opacity 0.1s ease-out;
+} */
+
+.introjs-button {
+	box-sizing: content-box;
+	position: relative;
+	overflow: visible;
+	display: inline-block;
+	padding: 0.3em 0.8em;
+	border: 1px solid #d4d4d4;
+	margin: 0;
+	text-decoration: none;
+	text-shadow: 1px 1px 0 #fff;
+	font: 11px / normal sans-serif;
+	color: #333;
+	white-space: nowrap;
+	cursor: pointer;
+	outline: none;
+	background-color: #ececec;
+	background-image: -webkit-gradient(
+		linear,
+		0 0,
+		0 100%,
+		from(#f4f4f4),
+		to(#ececec)
+	);
+	background-image: -moz-linear-gradient(#f4f4f4, #ececec);
+	background-image: -o-linear-gradient(#f4f4f4, #ececec);
+	background-image: linear-gradient(#f4f4f4, #ececec);
+	-webkit-background-clip: padding;
+	-moz-background-clip: padding;
+	-o-background-clip: padding-box;
+	/* background-clip: padding-box; */
+	-webkit-border-radius: 0.2em;
+	-moz-border-radius: 0.2em;
+	border-radius: 0.2em;
+	zoom: 1;
+	*display: inline;
+	margin-top: 10px;
+}
+
 /* ********** Utilities ********** */
 
 .hide-element,

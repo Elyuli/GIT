@@ -68,7 +68,8 @@ module.exports = {
     //try {
     var _req$body = req.body,
         username = _req$body.username,
-        password = _req$body.password; //console.log("email-password", `${email}-${password}`);
+        password = _req$body.password,
+        role = _req$body.role; //console.log("email-password", `${email}-${password}`);
 
     _db["default"].users.findOne({
       where: {
@@ -78,6 +79,12 @@ module.exports = {
       if (!user) {
         return res.status(403).send({
           error: " Username inválido!!!"
+        });
+      }
+
+      if (user.role === "disabled") {
+        return res.status(403).send({
+          error: " Usuario con el rol inhabilitado!!!"
         });
       }
 

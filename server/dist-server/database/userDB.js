@@ -219,31 +219,6 @@ var dbPostOneUser = /*#__PURE__*/function () {
     return _ref4.apply(this, arguments);
   };
 }();
-/* const dbPostOneUser = async (newUser) => {
-	const { username, password } = newUser;
-	console.log("password", password);
-	console.log("username>>", username);
-
-	const isAlreadyAdded =
-		db.users.findOne({ where: { username: username } }) > -1;
-
-	if (isAlreadyAdded) {
-		throw {
-			status: 400,
-			message: `Usuario con el username '${username}' ya existe`,
-		};
-	}
-
-	newUser.password = bcrypt.hashSync(`${password}`, saltRounds);
-
-	try {
-		const createdUser = await db.users.create(newUser);
-		return createdUser;
-	} catch (error) {
-		throw { status: error.status || 500, message: error.message || error };
-	}
-}; */
-
 
 exports.dbPostOneUser = dbPostOneUser;
 
@@ -261,21 +236,11 @@ var dbUpdateUser = /*#__PURE__*/function () {
             if (body.password) {
               body.password = _bcryptjs["default"].hashSync("".concat(body.password), saltRounds);
             }
-            /* 	const isAlreadyAdded = await db.users.findOne({
-            	where: { email: email },
-            });
-            		if (isAlreadyAdded) {
-            	throw {
-            		status: 400,
-            		message: `Usuario con el email '${email}' ya existe`,
-            	};
-            } */
-
 
             _context5.next = 5;
             return _db["default"].users.findOne({
               where: {
-                id: id
+                username: username
               }
             });
 
@@ -289,7 +254,7 @@ var dbUpdateUser = /*#__PURE__*/function () {
 
             throw {
               status: 400,
-              message: "No se pudo encontrar un usuario con el id'".concat(id, "'")
+              message: "No se pudo encontrar un usuario con el username'".concat(username, "'")
             };
 
           case 8:
@@ -324,7 +289,7 @@ var dbUpdateUser = /*#__PURE__*/function () {
 exports.dbUpdateUser = dbUpdateUser;
 
 var dbDeleteOneUser = /*#__PURE__*/function () {
-  var _ref6 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(id) {
+  var _ref6 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(username) {
     var userForDelete;
     return _regenerator["default"].wrap(function _callee6$(_context6) {
       while (1) {
@@ -334,7 +299,7 @@ var dbDeleteOneUser = /*#__PURE__*/function () {
             _context6.next = 3;
             return _db["default"].users.findOne({
               where: {
-                id: id
+                username: username
               }
             });
 
@@ -348,13 +313,13 @@ var dbDeleteOneUser = /*#__PURE__*/function () {
 
             throw {
               status: 400,
-              message: "No se pudo encontrar un usuario con el id'".concat(id, "'")
+              message: "No se pudo encontrar un usuario con el username'".concat(username, "'")
             };
 
           case 6:
             _db["default"].users.destroy({
               where: {
-                id: id
+                username: username
               }
             });
 

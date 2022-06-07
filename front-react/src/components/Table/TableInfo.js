@@ -286,10 +286,10 @@ const TableInfo = ({
 										{Object.keys(tableData).length > 0 &&
 											Object.keys(tableData).map((i) => {
 												const propertie = Object.keys(tableData[i]);
-												console.log(
+												/* console.log(
 													"table-data-propertie>>>",
 													Object.values(tableData[i][propertie])
-												);
+												); */
 												let size;
 												if (
 													propertie !== null ||
@@ -297,9 +297,8 @@ const TableInfo = ({
 													Object.values(tableData[i][propertie]).length > 0
 												) {
 													size = Object.values(tableData[i][propertie]).length;
+													if (size > 0) return <TableInput key={i} i={i} />;
 												}
-
-												if (size > 0) return <TableInput key={i} i={i} />;
 											})}
 										{tableData.length > 0 && ( //Arreglar
 											<TablePagination

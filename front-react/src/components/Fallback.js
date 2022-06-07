@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Alert, IconButton, Collapse } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-const Fallback = ({ open, setOpen, error, setIsStart }) => {
+const Fallback = ({ open, setOpen, error }) => {
 	return (
 		<>
 			<Box sx={{ width: "100%", textAlign: "center" }}>
@@ -16,7 +16,6 @@ const Fallback = ({ open, setOpen, error, setIsStart }) => {
 								size="small"
 								onClick={() => {
 									setOpen(false);
-									//	setIsStart(false);
 								}}
 							>
 								<CloseIcon fontSize="inherit" />

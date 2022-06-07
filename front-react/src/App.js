@@ -20,7 +20,7 @@ function App() {
 				<Router>
 					<Routes>
 						<Route path="/" element={<Login />} />
-						<Route path="/agrogeomet" element={<Home />} />
+						<Route path="/visor" element={<Home />} />
 						<Route path="/usuarios" element={<Users />} />
 						<Route path="*" element={<NotFound />} />
 					</Routes>

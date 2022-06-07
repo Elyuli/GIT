@@ -14,7 +14,7 @@ const Navigate = ({ setRun, run }) => {
 		<div className="platform-toolbar" data-tut="reactour_toolbar">
 			<HelpButton setRun={setRun} run={run} />
 			<InfoButton />
-			{user.role === "admin" && <CrudButton />}
+			{user != null && user.role === "admin" && <CrudButton />}
 			<CerrarSesion />
 		</div>
 	);

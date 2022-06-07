@@ -7,7 +7,7 @@ const CerrarSesion = () => {
 	return (
 		<div
 			className={logueado ? "toolbar-item fa fa-lock info" : undefined}
-			data-tut="lock"
+			data-tut="reactour_lock"
 			onClick={() => setLogueado(false)}
 		>
 			<div className="toolbar-menu hidden"></div>

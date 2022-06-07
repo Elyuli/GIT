@@ -47,10 +47,10 @@ export default function SignIn() {
 	const [open, setOpen] = useState(false);
 	const [error, setError] = useState(null);
 	const [usuario, setUsuario] = useState(initialUser);
-	//const [logged, setLogged] = useState(false);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+
 		const data = {
 			username: usuario.username,
 			password: usuario.password,
@@ -66,23 +66,21 @@ export default function SignIn() {
 			.post("http://localhost:5000/login", data)
 			.then(() => {
 				setUser(data);
-				setOpen(false);
-				setError(null);
 				setLogueado(true);
 			})
 			.catch((err) => {
-				console.log("err.message", err.message);
-				console.log("error", err.response.data.data.error);
-				if (err.response.data.data.error.length > 0) {
+				console.log("err.response.data.error>>", err.response.data.error);
+				console.log("err.message>>", err.message);
+				setOpen(true);
+				setLogueado(false);
+				/* if (err.response.data.data.error.length > 0) {
 					console.log("CARAJO");
 					let error = err.response.data.data.error;
 					setError(error);
-				} else {
-					let error = err.message;
-					setError(error);
-				}
-				setOpen(true);
-				setLogueado(false);
+				} else { */
+				let error = err.response.data.error;
+				setError(error);
+				//	}
 			});
 		handlClickReset();
 	};
@@ -100,73 +98,73 @@ export default function SignIn() {
 	};
 
 	return (
-		<ThemeProvider theme={theme}>
-			{logueado && <Navigate to="/agrogeomet" replace={true} />}
-			<Container component="main" maxWidth="xs">
-				<CssBaseline />
-				<Box
-					sx={{
-						marginTop: 8,
-						display: "flex",
-						flexDirection: "column",
-						alignItems: "center",
-					}}
-				>
-					<Avatar sx={{ m: 1, bgcolor: "#333" }}>
-						<LockOutlinedIcon />
-					</Avatar>
-					<Typography component="h1" variant="h5">
-						Iniciar Sesión
-					</Typography>
-					{open && <Fallback open={open} setOpen={setOpen} error={error} />}
+		<>
+			<ThemeProvider theme={theme}>
+				{logueado && <Navigate to="/visor" replace={true} />}
+				<Container component="main" maxWidth="xs">
+					<CssBaseline />
 					<Box
-						component="form"
-						onSubmit={handleSubmit}
-						noValidate
-						sx={{ mt: 1 }}
+						sx={{
+							marginTop: 8,
+							display: "flex",
+							flexDirection: "column",
+							alignItems: "center",
+						}}
 					>
-						<TextField
-							margin="normal"
-							required
-							fullWidth
-							id="username"
-							label="Username"
-							name="username"
-							autoComplete="username"
-							InputLabelProps={{ shrink: true }}
-							/* inputProps={{
-								pattern:
-									"^[a-z0-9]+(.[_a-z0-9]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,15})$",
-							}} */
-							value={usuario.username}
-							onChange={(e) => handlChangeUsername(e)}
-							autoFocus
-						/>
-						<TextField
-							margin="normal"
-							required
-							fullWidth
-							name="password"
-							label="Password"
-							type="password"
-							id="password"
-							autoComplete="current-password"
-							value={usuario.password}
-							onChange={(e) => handlChangePassword(e)}
-						/>
-						{/* <FormControlLabel
+						<Avatar sx={{ m: 1, bgcolor: "#333" }}>
+							<LockOutlinedIcon />
+						</Avatar>
+						<Typography component="h1" variant="h5">
+							Iniciar Sesión
+						</Typography>
+						{open && <Fallback open={open} setOpen={setOpen} error={error} />}
+						<Box
+							component="form"
+							onSubmit={handleSubmit}
+							noValidate
+							sx={{ mt: 1 }}
+						>
+							<TextField
+								margin="normal"
+								required
+								fullWidth
+								id="username"
+								label="Username"
+								name="username"
+								autoComplete="username"
+								InputLabelProps={{ shrink: true }}
+								/* inputProps={{
+									pattern: "^[A-Za-zÑñÁáÉéÍíÓóÚúÜü_.s]+$",
+								}} */
+								value={usuario.username}
+								onChange={(e) => handlChangeUsername(e)}
+								autoFocus
+							/>
+							<TextField
+								margin="normal"
+								required
+								fullWidth
+								name="password"
+								label="Password"
+								type="password"
+								id="password"
+								autoComplete="current-password"
+								value={usuario.password}
+								onChange={(e) => handlChangePassword(e)}
+							/>
+							{/* <FormControlLabel
 							control={<Checkbox value="remember" color="primary" />}
 							label="Remember me"
 						/> */}
-						<Button
-							type="submit"
-							fullWidth
-							variant="contained"
-							sx={{ mt: 3, mb: 2 }}
-						>
-							Entrar
-						</Button>
-						{/* <Grid container>
+							<Button
+								type="submit"
+								fullWidth
+								variant="contained"
+								sx={{ mt: 3, mb: 2 }}
+							>
+								Entrar
+							</Button>
+							{/* <Grid container>
 							<Grid item xs>
 								<Link href="#" variant="body2">
 									Forgot password?
@@ -178,10 +176,11 @@ export default function SignIn() {
 								</Link>
 							</Grid>
 						</Grid> */}
+						</Box>
 					</Box>
-				</Box>
-				<Copyright sx={{ mt: 8, mb: 4 }} />
-			</Container>
-		</ThemeProvider>
+					<Copyright sx={{ mt: 8, mb: 4 }} />
+				</Container>
+			</ThemeProvider>
+		</>
 	);
 }
