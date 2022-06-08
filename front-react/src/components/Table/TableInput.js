@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 const TableInput = ({ i }) => {
 	//const [checked, setChecked] = useState(false);
 	//const inputRef = useRef();
-	//console.log(" inputRef.current>>", inputRef.current);
+	//	console.log(" inputRef.current>>", inputRef.current);
 	return (
 		<>
 			<input

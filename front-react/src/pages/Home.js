@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../axios";
 import Map from "../components/Map/Map";
 import * as ol from "ol";
 import TileLayer from "ol/layer/Tile";
@@ -273,6 +273,7 @@ const Home = () => {
 
 		setRefMap(mapRef);
 		setLoading(true);
+		setPropTransform(0);
 		const view = map.getView();
 		const viewResolution = view.getResolution();
 		const viewProjection = view.getProjection();
@@ -324,7 +325,7 @@ const Home = () => {
 				mapRef.classList.add("sidebar-bottom-open");
 				setIsActiveTable(true);
 
-				result = axios.get(url, option);
+				result = axios.get(url);
 				promises.push(result);
 				//promises.push({ LAYERS: result });
 			} else {
@@ -388,6 +389,7 @@ const Home = () => {
 						map={map}
 						setMap={setMap}
 						handlOnClickGetInfoTileLayer={handlOnClickGetInfoTileLayer}
+						setLoading={setLoading}
 					>
 						{isBtnApiActive ? (
 							<SideBarLeft
@@ -402,7 +404,7 @@ const Home = () => {
 							<FullScreenControl />
 							<MousePositionControl />
 						</Controls>
-						<BingMap />
+						{/* <BingMap /> */}
 						<Layers>
 							{nameWorkHome &&
 								listLayersActiveHome &&

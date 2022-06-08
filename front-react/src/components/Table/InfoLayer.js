@@ -3,7 +3,7 @@ import "font-awesome/css/font-awesome.css";
 import TableReact from "./TableReact";
 
 const InfoLayer = ({
-	handlOnClickSetNameLayerTable,
+	handlOnClickTranslateSlides,
 	tableData,
 	name,
 	i,
@@ -40,7 +40,7 @@ const InfoLayer = ({
 		<>
 			{Object.keys(labels)
 				.slice(firstPageIndex, lastPageIndex)
-				.map((i = 1) => {
+				.map((i) => {
 					//console.log("labels[i]", labels[i]);
 					const { name, id } = labels[i];
 
@@ -61,7 +61,7 @@ const InfoLayer = ({
 										id={`dot-${id}`}
 										className={`slide-${id}`}
 										data-id={id}
-										onClick={(e) => handlOnClickSetNameLayerTable(e, id)}
+										onClick={(e) => handlOnClickTranslateSlides(e, id)}
 									>
 										{name}
 										<span></span>

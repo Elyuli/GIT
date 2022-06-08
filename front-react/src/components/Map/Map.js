@@ -10,7 +10,13 @@ import BingMapContext from "../../context/BingMapContext";
 import ApiContext from "../../context/ApiContext";
 import { defaults as defaultControls } from "ol/control";
 
-const Map = ({ children, map, setMap, handlOnClickGetInfoTileLayer }) => {
+const Map = ({
+	children,
+	map,
+	setMap,
+	handlOnClickGetInfoTileLayer,
+	setLoading,
+}) => {
 	const { option } = useContext(BingMapContext);
 	const { globalObject } = useContext(ApiContext);
 	const mapRef = useRef();
@@ -281,6 +287,8 @@ const Map = ({ children, map, setMap, handlOnClickGetInfoTileLayer }) => {
 				ref={mapRef}
 				className="ol-map"
 				onClick={(e) => handlOnClickGetInfoTileLayer(e, mapRef.current)}
+				onLoadStart={() => setLoading(true)}
+				onLoadedData={() => setLoading(false)}
 				//onChange={handlerSelectBing}
 			>
 				{children}

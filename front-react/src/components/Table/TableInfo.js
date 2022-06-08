@@ -92,7 +92,7 @@ const TableInfo = ({
 		console.log("contTransform", contTransform);
 		let util = 100 / contTransform;
 		console.log("util", util);
-		setPropTransform(util);
+		//setPropTransform(util);
 		setTableWidth(cont);
 	}, [tableData]);
 
@@ -154,7 +154,7 @@ const TableInfo = ({
 		setPage(0);
 	};
 
-	const handlOnClickSetNameLayerTable = (e, uid) => {
+	const handlOnClickTranslateSlides = (e, uid) => {
 		//console.log("	$e", e);
 		//console.log("labels>>>>", labels);
 
@@ -171,7 +171,8 @@ const TableInfo = ({
 				active = true;
 				aux.push({ name: name, id: id, active: active });
 
-				let transform = (100 / labels.length) * (uid - 1);
+				let transform = (100 / labels.length) * uid;
+				setPropTransform(transform);
 				console.log("transform", transform);
 				//let transform = propTransform * uid;
 				//	let transformBottom = 184 * (uid - 1);
@@ -266,8 +267,8 @@ const TableInfo = ({
 																		<InfoLayer
 																			currentPage={currentPage}
 																			labelsPerPage={labelsPerPage}
-																			handlOnClickSetNameLayerTable={
-																				handlOnClickSetNameLayerTable
+																			handlOnClickTranslateSlides={
+																				handlOnClickTranslateSlides
 																			}
 																			isActiveTable={isActiveTable}
 																			tableData={tableData}
